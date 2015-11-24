@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ex_normal_formfield"
+    android:orientation="horizontal"
+    tools:ignore="ContentDescription,UseCompoundDrawables,SpUsage" >
+
+    <TextView
+        android:id="@+id/leftTextView"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:id="@+id/rangeSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1" >
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/rightTextView"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+</LinearLayout>

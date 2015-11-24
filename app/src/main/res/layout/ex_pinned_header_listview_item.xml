@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/group_title"
+        layout="@layout/ex_pinned_header_listview_group" />
+
+    <TextView
+        android:id="@+id/column_title"
+        android:layout_width="match_parent"
+        android:layout_height="42.0dp"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dip"
+        android:textColor="#ff0e0e0e"
+        android:textSize="13.0sp" />
+
+</LinearLayout>

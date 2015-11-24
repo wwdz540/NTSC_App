@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="115dp"
+    android:padding="0dp"
+    android:background="@drawable/timer_widget_full_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_app_lg"
+            />
+        <TextView
+            android:textColor="#999999"
+            android:text="国家授时中心   "
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30sp"
+            android:gravity="center" />
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:background="@drawable/timer_widget_bg"
+        android:gravity="center_vertical|center_horizontal"
+
+        >
+        <ImageView
+            android:src="@drawable/number_0_tahoma"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_h1" />
+        <ImageView
+            android:src="@drawable/number_0_tahoma"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_h0"/>
+        <ImageView
+            android:src="@drawable/dots"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+             />
+
+        <ImageView
+            android:src="@drawable/number_0_tahoma"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_m1"/>
+        <ImageView
+            android:src="@drawable/number_0_tahoma"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_m0"/>
+
+        <ImageView
+            android:src="@drawable/dots"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="3dp"
+            />
+
+        <ImageView
+            android:src="@drawable/number_0_tahoma"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_s1"/>
+        <ImageView
+            android:src="@drawable/number_0_tahoma"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_s0"/>
+    </LinearLayout>
+</LinearLayout>

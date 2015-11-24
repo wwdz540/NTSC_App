@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Baidu-SocialShare-SDK-Android-L3-1.4.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/Baidu-SocialShare-SDK-Android-L3-1.4.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

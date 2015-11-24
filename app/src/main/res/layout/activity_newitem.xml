@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription,UselessParent" >
+
+    <LinearLayout
+        android:id="@+id/select_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="国家授时中心简介"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="22dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#BABABA" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
+            android:gravity="center"
+            android:padding="10dp" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/newsPic"
+                android:layout_width="match_parent"
+                android:adjustViewBounds="true"
+                android:layout_height="wrap_content"
+                 />
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="        国家授时中心承担着我国的标准时间的产生、保持和发播任务，其授时系统是国家不可缺少的基础性工程和社会公益设施，并被列为由国家财政部专项经费支持的国家重大科学工程之一。自七十年代初正式承担我国标准时间、标准频率发播任务以来，为我国国民经济发展等诸多行业和部门提供了可靠的高精度的授时服务，基本满足了国家的需求。特别是为以国家的火箭、卫星发射为代表的航天技术领域作出了重要贡献。相应的时间频率研究工作，则紧紧围绕国民经济高速发展对时频领域提出新的手段和更高精度的需求而开展，在守时理论与方法、时间频率测量与控制、时间传递与同步、新的授时手段的拓展、国际间远距离高精度时间传递与比对，时间尺度与频率标准、用户时间系统终端研制与开发等方面做了大量的基础与应用研究工作，取得了许多理论与技术成果，带动了我国该领域的进步与发展，逐渐形成了具有自身优势和国际影响的时间频率研究、服务、发展中心。
+   \r\n        国家授时中心前身是陕西天文台，1966年经国家科委批准筹建，1970年经周恩来总理批准短波授时台试播，1981年经国务院批准正式发播标准时间和频率信号；七十年代初，为适应我国战略武器发射、测控和空间技术发展的需要，经国务院和中央军委批准，在陕西天文台增建长波授时台（BPL），1986年通过由国家科委组织的国家级技术鉴定后正式发播标准时间、标准频率信号。
+　　\r\n        国家授时中心（陕西天文台）本部地处我国中部腹地——陕西临潼，承担着我国标准时间的产生、保持任务，并采用多种手段与国际时间保持同步，同时拥有一支时频领域的科研队伍。授时台位于陕西蒲城，主要有短波和长波专用无线电标准时间标准频率发播台（代号分别为BPM和BPL）。
+   \r\n        国家授时中心负责确定和保持的我国原子时系统TA(CSAO)和协调世界时UTC(CSAO)处于国际先进水平，并代表我国参加国际原子时合作。它是由一组高精度铯原子钟通过精密比对和计算实现，并通过GPS共视比对、卫星双向法（TWSTFT）比对等手段与国际原子时间标准相联系，对国际原子时的保持做出贡献，目前的稳定度为10-14，准确度为10-13。
+　　\r\n        短波授时台（BPM）每天24小时连续不断地以四种频率（2.5M,5M,10M,15M,同时保证3种频率）交替发播标准时间、标准频率信号，覆盖半径超过3000公里，授时精度为毫秒（千分之一秒）量级；长波授时台（BPL）每天定时发播载频为100KHz的高精度长波时频信号，地波作用距离1000-2000公里，天地波结合，覆盖全国陆地和近海海域，授时精度为微秒（百万分之一秒）量级。BPL长波授时系统的建立，将我国授时精度由毫秒量级提高至微秒量级，使我国授时技术迈入世界先进行列，该项目1988年荣获国家科技进步一等奖。
+　　\r\n        国家授时中心除了开展时间频率研究工作和常规的授时发播工作外，同时也面向各类时间用户，进行系统设计、咨询和相关设备的研制，满足了各行业、各领域时间用户的需求，为国民经济发展做出了重要贡献。
+　　\r\n        四十多年来，国家授时中心（陕西天文台）在时频技术研究领域获得重大科技成果奖140余项，为国家的空间技术、测绘、地震、交通、通信、气象、地质等诸多行业和部门提供了可靠的高精度授时服务。特别是在以卫星发射、火箭试验为代表的我国航天技术发展中做出了重大贡献。自系统建成后，为国家重大火箭、卫星发射任务的时间保障，提供了准确可靠的时间频率信号，保证了百余次重大任务的顺利完成，多次受到国务院和各有关部委的贺电嘉奖。
+　　\r\n        随着国家知识创新体系在中国科学院率先试点工作的开始，作为国家授时中心，陕西天文台所承担的国家任务和开展的研究工作得到了国家和科学院的重视和肯定，作为首批试点单位进入了科学院知识创新试点工程，并于2001年3月经中央机构编制委员会批准正式更名为中国科学院国家授时中心。
+　　\r\n        国家授时中心正在按照中国科学院知识创新试点工作的部署，进一步凝练和提升科技创新目标，积极推进体制改革和机制转换，努力加强人才培养和科研队伍建设，从国家战略和安全高度出发，瞄准时间频率学科前沿，积极进行时频创新研究，把国家授时中心建设成为我国时频基准、授时服务和授时新技术研究的创新和发展基地，使我国的授时服务和时频研究水平整体跻身世界先进行列，使国家授时中心真正成为国家的关键技术基础设施、重要战略资源和国民经济持续发展的科技支撑。
+" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

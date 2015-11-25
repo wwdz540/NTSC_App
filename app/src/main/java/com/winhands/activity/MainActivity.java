@@ -717,7 +717,7 @@ public class MainActivity extends StartActivity implements OnTouchListener,
 	}
 	
 	public void openWeb(View v){
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
 		Uri uri = Uri.parse("http://www.time.ac.cn/");  
 		Intent it = new Intent(Intent.ACTION_VIEW, uri);  
 		startActivity(it);
@@ -839,7 +839,7 @@ public class MainActivity extends StartActivity implements OnTouchListener,
 			startActivity(mIntent);
 			break;
 		case R.id.openweb:
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
 			Uri uri = Uri.parse("http://www.time.ac.cn/");  
 			Intent it = new Intent(Intent.ACTION_VIEW, uri);  
 			startActivity(it);
@@ -1422,7 +1422,6 @@ public class MainActivity extends StartActivity implements OnTouchListener,
 			setTime(netDate.getTime());
 			cancelTimer();
 			wakeupTimer();
-			System.out.println("setTime.....");
 		}
 	}
 

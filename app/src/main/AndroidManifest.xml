@@ -29,6 +29,13 @@
 
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <android:uses-permission android:name="android.permission.READ_CALL_LOG" />
+
     <application
         android:name="com.winhands.activity.BaseApplication"
         android:allowBackup="true"
@@ -45,20 +52,26 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.winhands.activity.LoginActivity"
+            android:label="@string/title_activity_login">
+
+        </activity>
+
+        <activity
             android:name="com.winhands.activity.SelectCtiyActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="com.winhands.activity.WheatherActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="com.winhands.activity.NewsListActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="com.winhands.activity.NewInfoActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.NoTitleBar" />
 
-        <service android:name="com.winhands.service.SyncService"></service>
-        <service android:name="com.winhands.service.FxService"></service>
+        <service android:name="com.winhands.service.SyncService" />
+        <service android:name="com.winhands.service.FxService" />
 
         <receiver android:name="com.winhands.widgets.TimerAppWidgetProvider">
             <intent-filter>
@@ -93,11 +106,12 @@
         <!-- android:name="com.winhands.widgets.TimerIntentService" -->
         <!-- android:exported="false" > -->
         <!-- </service> -->
-         <service
-         android:name="com.winhands.service.TsaService"
-         android:enabled="true"
-         android:exported="true" >
-         </service>
+        <service
+            android:name="com.winhands.service.TsaService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+
     </application>
 
 </manifest>

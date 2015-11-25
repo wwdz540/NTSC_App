@@ -3,7 +3,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-<dimen name="ex_handwriting_canvas_bottombar">48dp</dimen>
+    <dimen name="ex_handwriting_canvas_bottombar">48dp</dimen>
 
     <dimen name="weather_current_city_name">22.0sp</dimen>
     <dimen name="actionbar_height">48.0dip</dimen>

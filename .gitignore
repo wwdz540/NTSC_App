@@ -4,3 +4,6 @@
 /*/*.iml
 /app/build
 /app/build/*
+/.gradle
+/.gradle/*
+

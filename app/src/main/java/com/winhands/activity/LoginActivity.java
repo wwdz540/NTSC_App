@@ -10,6 +10,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build;
@@ -25,18 +26,30 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.volley.toolbox.StringRequest;
 import com.winhands.settime.R;
+import com.winhands.util.L;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 
 /**
  * A login screen that offers login via email/password.
  */
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
@@ -82,6 +95,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button mCancelButton = (Button)findViewById(R.id.login_cancle_button);
+        mCancelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.this.finish();
             }
         });
 
@@ -155,7 +176,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            BaseApplication baseApplication = (BaseApplication)this.getApplication();
+            mAuthTask = new UserLoginTask(baseApplication,email, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -205,7 +227,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -297,33 +319,42 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mEmail;
         private final String mPassword;
+        private final BaseApplication mApplication;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(BaseApplication application,String email, String password) {
+            mApplication = application;
             mEmail = email;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+
+            ArrayList<BasicNameValuePair> postParams = new ArrayList<BasicNameValuePair>();
+            postParams.add(new BasicNameValuePair("loginName",mEmail));
+            postParams.add(new BasicNameValuePair("password",mPassword));
+
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                AndroidHttpClient httpClient = AndroidHttpClient.newInstance(null);
+                HttpPost postMethod = new HttpPost("http://100.66.80.149:8081/login");
+                postMethod.setEntity(new UrlEncodedFormEntity(postParams, "utf-8"));
+                HttpResponse response = httpClient.execute(postMethod); //执行POST方法
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                if(response.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
+                    String responseStr =  EntityUtils.toString(response.getEntity());
+                    L.d("responseStr = " + responseStr);
+                    if("success".equals(responseStr)){
+                        return  true;
+                    }
                 }
+                httpClient.close();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            // TODO: register the new account here.
-            return true;
+            return false;
         }
 
         @Override
@@ -332,9 +363,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
+                Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_LONG).show();
+                mApplication.isLogin = true;
+                mApplication.loginName  = mEmail;
+                mApplication.loginPassword = mPassword;
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                Toast.makeText(LoginActivity.this,"用户名或密码错误,请重新输入",Toast.LENGTH_LONG).show();
+               // mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }

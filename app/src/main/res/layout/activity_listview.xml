@@ -24,8 +24,10 @@
             android:gravity="center"
             android:textColor="#FFFFFF"
             android:text="新闻" />
+
             <ImageView
-                android:src="@drawable/avatar_on"
+                android:id="@+id/avator"
+                android:src="@drawable/avatar_off"
                 android:layout_width="45dp"
                 android:layout_height="45dp" />
     </LinearLayout>

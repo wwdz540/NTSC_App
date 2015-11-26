@@ -70,6 +70,11 @@ public class BaseApplication extends Application{
 	private WeatherInfo mAllWeather;
 	public static int mNetWorkState;
 
+
+	 String loginName;
+     String loginPassword;
+	 boolean isLogin=false;
+
 	public synchronized boolean isNTPFlag() {
 		return NTPFlag;
 	}

@@ -21,6 +21,7 @@ import com.winhands.settime.R;
 import com.winhands.util.L;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,15 +42,57 @@ public class NewsListActivity extends Activity{
 	ListView lv;
 	MyAdapter myAdpater;
 	List<News> list;
+	ImageView avatorImgBtn;
+	boolean isLogin;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_listview);
 		lv = (ListView) findViewById(R.id.list);
+		avatorImgBtn = (ImageView)findViewById(R.id.avator);
 		list = new ArrayList<News>();
 		getList();
-		
+
+		avatorImgBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(!isLogin){
+					Intent intent = new Intent(NewsListActivity.this, LoginActivity.class);
+					startActivity(intent);
+				}else{
+					logOut();
+					checkLogin();
+				}
+			}
+		});
 	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		checkLogin();
+	}
+
+	private  void logOut(){
+		BaseApplication mBaseApplication = (BaseApplication)getApplication();
+		mBaseApplication.isLogin = false;
+		isLogin = false;
+
+	}
+
+	private void checkLogin(){
+
+		BaseApplication mBaseApplication = (BaseApplication)getApplication();
+
+		L.d("mBaseApplication="+mBaseApplication.isLogin);
+		if(mBaseApplication.isLogin){
+			avatorImgBtn.setImageResource(R.drawable.avatar_on);
+		}else{
+			avatorImgBtn.setImageResource(R.drawable.avatar_off);
+		}
+		isLogin = mBaseApplication.isLogin;
+	}
+
 	private void getList() {
 		String url = URLConfig.NewsURL;
 		HashMap<String, String> params = new HashMap<String, String>();

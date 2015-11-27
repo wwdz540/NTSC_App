@@ -354,7 +354,6 @@ public class BaseApplication extends Application{
 		mIndexer = new HashMap<String, Integer>();
 		mCityList = mCityDB.getAllCity();// 获取数据库中所有城市
 		System.out.println(mCityList);
-		System.out.println("aaaaaaaaaaaaaaaaa");
 		for (City city : mCityList) {
 			String firstName = city.getPy().substring(0, 1).toUpperCase();// 第一个字拼音的第一个字母
 			if (firstName.matches(FORMAT)) {

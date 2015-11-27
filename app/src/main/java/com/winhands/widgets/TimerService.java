@@ -15,6 +15,7 @@ import com.winhands.activity.MainActivity;
 import com.winhands.bean.SntpClient;
 
 import com.winhands.util.L;
+import com.winhands.util.NtpTrustedTime;
 import com.winhands.util.SharePreferenceUtil;
 import com.winhands.util.SharePreferenceUtils;
 
@@ -38,13 +39,13 @@ public class TimerService extends Service implements Runnable {
     private Thread mUpdateThread;
 
 
-    private Context mContext;
+    private Context mContext;/*
     Date netDate;
-    Calendar netDAteCal;
+    Calendar netDAteCal;*/
     private TimerAppWidgetProvider appWidgetProvider = TimerAppWidgetProvider.getInstance();
 
     private String currentNTP= MainActivity.DEFAULT_TNP;
-
+    NtpTrustedTime trustedTime ;
 
     @Override
     public void onCreate() {
@@ -55,7 +56,7 @@ public class TimerService extends Service implements Runnable {
         sp = new SharePreferenceUtils(this).getSP();
         mSpUtil = BaseApplication.getInstance().getSharePreferenceUtil();
         mContext = this.getApplicationContext();
-        netDAteCal=Calendar.getInstance();
+      //  netDAteCal=Calendar.getInstance();
 
         if(!("".equals(mSpUtil.getNtpService()))){
             currentNTP = mSpUtil.getNtpService();
@@ -67,6 +68,12 @@ public class TimerService extends Service implements Runnable {
         mUpdateThread = new Thread(this);
         mUpdateThread.start();
 
+        trustedTime = NtpTrustedTime.getInstance(this);
+        if(!trustedTime.hasCache()){
+            trustedTime.setServer(currentNTP);
+            trustedTime.setTimeout(5000);
+
+        }
         super.onCreate();
     }
 
@@ -127,22 +134,10 @@ public class TimerService extends Service implements Runnable {
 
 
     private void getNetDate(String ip) {
-        SntpClient client = new SntpClient();
-        if(client.requestTime(ip,300)){
-
-
-            long now = client.getNtpTime() + SystemClock.elapsedRealtime() - client.getNtpTimeReference();
-            synchronized (netDAteCal) {
-                netDate = new Date(now
-                        - ((8 - sp.getInt("timezone", 8)) * 60 * 60 * 1000));
-                netDAteCal.setTime(netDate);
-
-
-            }
-            Log.d(TAG, "netDateIs" + netDate);
-
-
+        if(!trustedTime.hasCache()){
+            trustedTime.setServer(currentNTP);
         }
+        trustedTime.forceRefresh();
     }
 
 
@@ -150,14 +145,14 @@ public class TimerService extends Service implements Runnable {
     @Override
     public void run() {
 
+        Date now = new Date();
+
         try {
             while (true) {
 
-                synchronized (netDAteCal) {
-                    netDAteCal.add(Calendar.SECOND, 1);
-                }
-                appWidgetProvider.setTime(mContext,netDAteCal.getTime());
-                mBinder.setTime(netDAteCal.getTime().getTime());
+                now.setTime(trustedTime.currentTimeMillis());
+                appWidgetProvider.setTime(mContext,now);
+                mBinder.setTime(trustedTime.currentTimeMillis());
                 Thread.sleep(UPDATE_TIME);
             }
         } catch (InterruptedException e) {

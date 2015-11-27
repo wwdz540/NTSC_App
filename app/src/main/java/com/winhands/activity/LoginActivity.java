@@ -2,7 +2,6 @@ package com.winhands.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
@@ -33,12 +32,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.winhands.bean.URLConfig;
 import com.winhands.settime.R;
-import com.winhands.util.L;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,7 +47,6 @@ import org.apache.http.util.EntityUtils;
  * A login screen that offers login via email/password.
  */
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
@@ -323,7 +320,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
         private final BaseApplication mApplication;
-        private static  final String LOGIN_URL="http://172.20.10.3:8080/login/user/fuser_login";
+        private static  final String LOGIN_URL= URLConfig.LOGIN_URL;
         //http://100.66.80.149:8081/login
 
 

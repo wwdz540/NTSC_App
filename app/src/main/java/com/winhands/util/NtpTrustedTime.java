@@ -85,11 +85,11 @@ public class NtpTrustedTime implements TrustedTime {
         return sSingleton;
     }
 
-    public void setmServer(String mServer) {
+    public void setServer(String mServer) {
         this.mServer = mServer;
     }
 
-    public void setmTimeout(long mTimeout) {
+    public void setTimeout(long mTimeout) {
         this.mTimeout = mTimeout;
     }
 

@@ -252,9 +252,6 @@ public class MainActivity extends StartActivity implements OnTouchListener,
 					cityName.setText(s);
 					cityName.setTextSize(17);
 				}
-				if(msg.what==20){
-					checkTnpError();
-				}
 
 				if(msg.what==21){
 					tnpError();
@@ -322,38 +319,7 @@ public class MainActivity extends StartActivity implements OnTouchListener,
 
 
 
-	/**private  Runnable checkErroRunabel = new Runnable() {
-		@Override
-		public void run() {
-			SntpClient client = new SntpClient();
-			L.d("checkEror")
-			if(client.requestTime(currntTnp,5000){
-				tnpError();
-			}
-		}
-	};**/
 
-	private  void checkTnpError(){
-//		(new Thread(){
-//			@Override
-//			public void run() {
-//				try {
-//					Thread.sleep(3000);
-//					L.d("timemoutflag:"+timeoutFlag);
-//					if(timeoutFlag){
-//						mHandler.sendEmptyMessage(20);
-//					}
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}).start();
-
-	//	if(timeoutFlag || net_time.getText().equals("")){
-		//	tnpError();
-	//	}
-
-	}
 
 	private  void tnpError(){
 	//	Toast.makeText(this.getApplicationContext(),"网络连接失败",Toast.LENGTH_LONG).show();
@@ -644,48 +610,7 @@ public class MainActivity extends StartActivity implements OnTouchListener,
 				getNetDate(currntTnp);
 			}
 		}).start();
-	/*	new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				getNetDate("210.72.145.44");
-			}
-		}).start();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				getNetDate("1.cn.pool.ntp.org");
-			}
-		}).start();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				getNetDate("2.cn.pool.ntp.org");
-			}
-		}).start();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				getNetDate("3.cn.pool.ntp.org");
-			}
-		}).start();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				getNetDate("0.cn.pool.ntp.org");
-			}
-		}).start();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				getNetDate("cn.pool.ntp.org");
-			}
-		}).start();*/
 
 	}
 

@@ -156,11 +156,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        }
+/*
+        else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
+*/
 
         if(TextUtils.isEmpty(password)){
             mPasswordView.setError(getString(R.string.error_field_required));
@@ -320,6 +323,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
         private final BaseApplication mApplication;
+        private static  final String LOGIN_URL="http://172.20.10.3:8080/login/user/fuser_login";
+        //http://100.66.80.149:8081/login
+
 
         UserLoginTask(BaseApplication application,String email, String password) {
             mApplication = application;
@@ -337,13 +343,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             try {
                 AndroidHttpClient httpClient = AndroidHttpClient.newInstance(null);
-                HttpPost postMethod = new HttpPost("http://100.66.80.149:8081/login");
+                HttpPost postMethod = new HttpPost(LOGIN_URL);
                 postMethod.setEntity(new UrlEncodedFormEntity(postParams, "utf-8"));
                 HttpResponse response = httpClient.execute(postMethod); //执行POST方法
 
                 if(response.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
                     String responseStr =  EntityUtils.toString(response.getEntity());
-                    L.d("responseStr = " + responseStr);
                     if("success".equals(responseStr)){
                         return  true;
                     }

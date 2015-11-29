@@ -158,6 +158,7 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	private SharePreferenceUtil mSpUtil;
 	private int exitValue;
 	private boolean timeoutFlag = false;
+	private int timefrequent;
 
 	private Button unCachedButton;
 
@@ -339,19 +340,22 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 
 
 	private  void ntpError(){
-	//	Toast.makeText(this.getApplicationContext(),"网络连接失败",Toast.LENGTH_LONG).show();
-		mHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				unCachedButton.setVisibility(View.VISIBLE);
+//	//	Toast.makeText(this.getApplicationContext(),"网络连接失败",Toast.LENGTH_LONG).show();
+//		mHandler.post(new Runnable() {
+//			@Override
+//			public void run() {
+				unCachedButton.setBackgroundResource(R.drawable.uncached_ntp_time);
 				showNtpErrorTooltip();
 				/*AlertDialog.Builder builder = new AlertDialog.Builder(VMainActivity.this);
 				builder.setMessage("网络连接失败");
 				builder.create().show();*/
-			}
-		});
+//			}
+//		});
 		//mSpUtil.setNtpService("");
 		//initTnp();
+	}
+	private void ntpSucc(){
+		unCachedButton.setBackgroundResource(R.drawable.cached_ntp_time);
 	}
 
 	private void initList() {
@@ -548,14 +552,38 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 		ntpTrustedTime = NtpTrustedTime.getInstance(this);
 		ntpTrustedTime.setTimeout(5000);
 		ntpTrustedTime.setServer(currntTnp);
-		mHandler.postDelayed(new Runnable() {
+/*		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				refreshTime();
 			}
-		},500);
-
+		}, 500);*/
+		refreshTimeUseFrequence();
 	}
+/*
+	private Timer timer= new Timer();
+	private TimerTask refreshTimerTask= new TimerTask() {
+		@Override
+		public void run() {
+			//refreshTime();
+		}
+	};*/
+
+	private void refreshTimeUseFrequence(){
+		mHandler.removeCallbacks(refreshTimeRunnabel);
+		mHandler.postDelayed(refreshTimeRunnabel,500);
+	}
+
+	Runnable refreshTimeRunnabel = new Runnable() {
+		@Override
+		public void run() {
+			refreshTime();
+			int delay = sp.getInt("timefrequent",1)*60*1000;
+			mHandler.postDelayed(this, delay);
+		}
+	};
+
+
 
 
 	@Override
@@ -570,7 +598,6 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 
 		mHandler.removeMessages(UPDATE_TIME);
 		mHandler.sendEmptyMessage(UPDATE_TIME);
-
 
 	}
 
@@ -593,23 +620,52 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	 * 重新从服务器获取时间
 	 */
 	private void refreshTime(){
-		new Thread() {
+		/*new Thread() {
 			@Override
 			public void run() {
 				if(ntpTrustedTime.forceRefresh()) {//因为没有获取时间时，程序也在自动加载，所以引处不用加
+
 				//	unCachedButton.setVisibility(View.INVISIBLE);
 				//	mHandler.removeMessages(UPDATE_TIME);
 				//	mHandler.sendEmptyMessage(UPDATE_TIME);
 				}else{
+
 					ntpError();
 				}
 
 			}
-		}.start();
+		}.start();*/
+		RefressTimeTask refreshTimeTask = new RefressTimeTask();
+		refreshTimeTask.execute();
 	}
 
 
+	 class RefressTimeTask extends AsyncTask<Void,Void, Boolean>{
+		@Override
+		protected void onPreExecute() {
+			unCachedButton.setVisibility(View.GONE);
+			findViewById(R.id.cache_ntp_time_progressbar).setVisibility(View.VISIBLE);
 
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			return ntpTrustedTime.forceRefresh();
+
+		}
+
+		@Override
+		protected void onPostExecute(Boolean suc) {
+			unCachedButton.setVisibility(View.VISIBLE);
+			findViewById(R.id.cache_ntp_time_progressbar).setVisibility(View.GONE);
+			if(suc){
+				ntpSucc();
+			}else{
+				ntpError();
+			}
+
+		}
+	};
 
 
 
@@ -772,7 +828,6 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 			break;
 		case R.id.uncached_ntp_time_button:
 			refreshTime();
-			unCachedButton.setVisibility(View.INVISIBLE);
 			break;
 		default:
 			break;
@@ -1203,6 +1258,7 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 					Editor e = sp.edit();
 					e.putInt("timefrequent", tf.getFrequentCode());
 					e.commit();
+					refreshTimeUseFrequence();
 					timeFrequentList.clear();
 					initTimeFrequntList();
 					mHandler.sendEmptyMessage(3);

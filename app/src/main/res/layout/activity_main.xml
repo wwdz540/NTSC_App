@@ -425,9 +425,14 @@
             <Button
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:visibility="invisible"
                 android:id="@+id/uncached_ntp_time_button"
                 android:background="@drawable/uncached_ntp_time"/>
+            <ProgressBar
+                android:id="@+id/cache_ntp_time_progressbar"
+                style="@style/base_small_progressbar_style"
+                android:visibility="gone"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
         </LinearLayout>
 
         <LinearLayout

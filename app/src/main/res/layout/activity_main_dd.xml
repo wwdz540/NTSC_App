@@ -126,6 +126,11 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:background="@drawable/uncached_ntp_time"/>
+                <ProgressBar
+                    style="@style/base_small_progressbar_style"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
         </LinearLayout>
 
         <LinearLayout

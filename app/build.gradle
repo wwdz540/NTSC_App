@@ -22,4 +22,5 @@ dependencies {
     compile 'com.android.support:support-v4:19.1.0'
     compile files('libs/Baidu-SocialShare-SDK-Android-L3-1.4.1.jar')
     compile files('libs/locSDK_3.3.jar')
+    compile project(":easydialog")//引用本地的库
 }

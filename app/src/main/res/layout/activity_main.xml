@@ -392,14 +392,43 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="国家授时中心"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:textSize="22dp" />-->
+
+
+        <LinearLayout
+            android:padding="0dp"
+            android:layout_margin="0dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+
             android:gravity="center"
-            android:padding="5dp"
-            android:text="国家授时中心"
-            android:textColor="#FFFFFF"
-            android:textSize="22dp" />
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="国家授时中心"
+                android:textColor="#FFFFFF"
+                android:textSize="22dp" />
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                android:id="@+id/uncached_ntp_time_button"
+                android:background="@drawable/uncached_ntp_time"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -100,7 +100,7 @@ public class EasyDialog
             }
         });
         rlOutsideBackground = (RelativeLayout) dialogView.findViewById(R.id.rlOutsideBackground);
-        rlOutsideBackground.setOnTouchListener(new View.OnTouchListener()
+       rlOutsideBackground.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent event)
@@ -323,10 +323,19 @@ public class EasyDialog
         return this;
     }
 
+    public void close(){
+        if (dialog != null)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                attachedView.getViewTreeObserver().removeOnGlobalLayoutListener(attchViewLayoutListener);
+            }
+            onDialogDismiss();
+        }
+    }
+
     private ViewTreeObserver.OnGlobalLayoutListener attchViewLayoutListener =new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            Log.d("wzp","<><><");
 
             setLocationByAttachedView(attachedView);
             relocation(location);

@@ -150,6 +150,8 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	private ImageView iv_m1, iv_m2;
 	private LinearLayout citySetting, setTimeZone, setTimeFrequent,
 			setBackground, notice, serverSetting,ntpServiceSetting;
+
+	private EasyDialog easyDialog;
 	private SharedPreferences sp;
 	private List<TimeBean> timeZoneList;
 	private List<TimeFrequent> timeFrequentList;
@@ -235,7 +237,7 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 							+" "
 							+invertWeekday(netDate.getDay()));
 
-					mHandler.sendEmptyMessageDelayed(UPDATE_TIME, 1000);
+					mHandler.sendEmptyMessageDelayed(UPDATE_TIME, 200);
 
 
 				}
@@ -313,8 +315,8 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 
 					setNtpText();
 					mSpUtil.setNtpService(currntTnp);
-					refreshTime();
 					scrollToContent();
+					refreshTime();
 					//mHandler.removeMessages(UPDATE_TIME);
 				}
 			});
@@ -355,6 +357,10 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 		//initTnp();
 	}
 	private void ntpSucc(){
+		mHandler.removeMessages(UPDATE_TIME);
+
+		long  delay = 1000 - ntpTrustedTime.currentTimeMillis() % 1000;
+		mHandler.sendEmptyMessageDelayed(UPDATE_TIME,delay);
 		unCachedButton.setBackgroundResource(R.drawable.cached_ntp_time);
 	}
 
@@ -579,6 +585,7 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 		public void run() {
 			refreshTime();
 			int delay = sp.getInt("timefrequent",1)*60*1000;
+			//int delay = 5000;
 			mHandler.postDelayed(this, delay);
 		}
 	};
@@ -598,11 +605,13 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 
 		mHandler.removeMessages(UPDATE_TIME);
 		mHandler.sendEmptyMessage(UPDATE_TIME);
+		refreshTime();
 
 	}
 
 	private  void showNtpErrorTooltip(){
-		new EasyDialog(this)
+
+		easyDialog = new EasyDialog(this)
 				.setLayoutResourceId(R.layout.uncached_ntp_tool_tip)
 				.setBackgroundColor(0x7f0b0006)
 				.setLocationByAttachedView(unCachedButton)
@@ -643,7 +652,10 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	 class RefressTimeTask extends AsyncTask<Void,Void, Boolean>{
 		@Override
 		protected void onPreExecute() {
+			if(easyDialog !=null)
+				easyDialog.close();
 			unCachedButton.setVisibility(View.GONE);
+			ntpTrustedTime.setServer(currntTnp);
 			findViewById(R.id.cache_ntp_time_progressbar).setVisibility(View.VISIBLE);
 
 		}
@@ -658,6 +670,8 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 		protected void onPostExecute(Boolean suc) {
 			unCachedButton.setVisibility(View.VISIBLE);
 			findViewById(R.id.cache_ntp_time_progressbar).setVisibility(View.GONE);
+			if(easyDialog !=null)
+				easyDialog.close();
 			if(suc){
 				ntpSucc();
 			}else{

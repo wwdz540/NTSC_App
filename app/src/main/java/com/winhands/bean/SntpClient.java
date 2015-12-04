@@ -19,6 +19,8 @@ package com.winhands.bean;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.winhands.util.MyLog;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -101,6 +103,7 @@ public class SntpClient
             long originateTime = readTimeStamp(buffer, ORIGINATE_TIME_OFFSET);
             long receiveTime = readTimeStamp(buffer, RECEIVE_TIME_OFFSET);
             long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
+
             long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
             // receiveTime = originateTime + transit + skew
             // responseTime = transmitTime + transit - skew
@@ -112,9 +115,10 @@ public class SntpClient
             //             = (2 * skew)/2 = skew
             long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2;
 
-
-            // if (false) Log.d(TAG, "round trip: " + roundTripTime + " ms");
-            // if (false) Log.d(TAG, "clock offset: " + clockOffset + " ms");
+//            MyLog.getInstance().d("requestTime="+requestTime+",originateTime="+originateTime
+//                    +",receiveTime="+receiveTime+",transmitTime ="+transmitTime+",responseTime="+responseTime+"\r\n");
+//            // if (false) Log.d(TAG, "round trip: " + roundTripTime + " ms");
+//            // if (false) Log.d(TAG, "clock offset: " + clockOffset + " ms");
 
             // save our results - use the times on this side of the network latency
             // (response rather than request time)

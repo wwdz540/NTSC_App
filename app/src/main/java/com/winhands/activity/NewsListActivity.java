@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +44,7 @@ public class NewsListActivity extends Activity{
 	MyAdapter myAdpater;
 	List<News> list;
 	ImageView avatorImgBtn;
-	boolean isLogin;
+	static boolean isLogin;
 	BaseApplication mBaseApplication;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class NewsListActivity extends Activity{
 		lv = (ListView) findViewById(R.id.list);
 		avatorImgBtn = (ImageView)findViewById(R.id.avator);
 		list = new ArrayList<News>();
-		getList();
+	//	getList();
 
 		avatorImgBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -65,6 +66,7 @@ public class NewsListActivity extends Activity{
 				} else {
 					logOut();
 					checkLogin();
+					getList();
 				}
 			}
 		});
@@ -73,26 +75,24 @@ public class NewsListActivity extends Activity{
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		/***
-		 * 从登陆页面返回到此页面时，如果登陆状态发生变化，重新回载列表
-		 */
-		if(mBaseApplication.isLogin!=isLogin) {
-
+		getList();
 			checkLogin();
-		}
 	}
 
 	private  void logOut(){
 		//BaseApplication mBaseApplication = (BaseApplication)getApplication();
 		mBaseApplication.isLogin = false;
-		isLogin = false;
+		//isLogin = false;
 
 	}
 
 	private void checkLogin(){
 		list.clear();
-		getList();
+		if(isLogin!=mBaseApplication.isLogin){
+			//getList();
+			isLogin = mBaseApplication.isLogin;
+
+		}
 
 	//	BaseApplication mBaseApplication = (BaseApplication)getApplication();
 
@@ -106,6 +106,7 @@ public class NewsListActivity extends Activity{
 	}
 
 	private void getList() {
+		list = new ArrayList<News>();
 		String url = URLConfig.NewsURL;
 
 		HashMap<String, String> params = new HashMap<String, String>();
@@ -115,6 +116,8 @@ public class NewsListActivity extends Activity{
 			params.put("loginName",mBaseApplication.loginName);
 			params.put("password",mBaseApplication.loginPassword);
 		}
+
+		L.d("url="+url);
 
 		MyJsonArrayRequest request = new MyJsonArrayRequest(Request.Method.POST, url, params,
 				new Response.Listener<JSONArray>() {

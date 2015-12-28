@@ -11,7 +11,7 @@ import android.nfc.Tag;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.winhands.activity.MainActivity;
+import com.winhands.activity.VMainActivity;
 import com.winhands.settime.R;
 
 import java.util.Date;
@@ -61,11 +61,14 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         Log.d(LOGTAG, "onReceive=" + intent.getAction());
         if(intent.getAction().equals(CLICK_ACTION)){
-            Intent activityAction = new Intent(context.getApplicationContext(),MainActivity.class);
-
+            Intent activityAction = new Intent(context.getApplicationContext(),VMainActivity.class);
             activityAction.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(activityAction);
             return;
+        }else if(intent.getAction().equals(Intent.ACTION_SCREEN_ON)){
+            Log.d(LOGTAG," screen on service Start");
+            Intent serviceIntent = new Intent(context.getApplicationContext(),TimerService.class);
+            context.startService(serviceIntent);
         }
 
 
@@ -121,6 +124,7 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
 //            int s = date.getSeconds();
 //            remoteView.setImageViewResource(R.id.nb_s0,Utils.NUMBERS[s%10]);
 //            remoteView.setImageViewResource(R.id.nb_s1,Utils.NUMBERS[s/10]);
+
             d=date.getHours();
             remoteView.setTextViewText(R.id.tv_hour,d/10+""+d%10);
             d=date.getMinutes();

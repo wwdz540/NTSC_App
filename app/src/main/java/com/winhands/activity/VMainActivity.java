@@ -1,15 +1,18 @@
 package com.winhands.activity;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -51,10 +54,12 @@ import com.winhands.settime.R;
 import com.winhands.util.GetWeatherTask;
 import com.winhands.util.L;
 import com.winhands.util.NtpTrustedTime;
+import com.winhands.util.PermissionUtils;
 import com.winhands.util.SharePreferenceUtil;
 import com.winhands.util.SharePreferenceUtils;
 import com.winhands.util.T;
 import com.winhands.util.TimeUtil;
+import com.winhands.widgets.TimerService;
 
 import org.json.JSONObject;
 
@@ -173,16 +178,17 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	/***
 	 * 所有tnp服务的名称
 	 */
-	public static final String[] NTP_NAMES ={"1.国家授时中心","2.网络授时服务一","3.网络授时服务二","4.网络授时服务三","5.网络授时服务四","5.网络授时服务五"};
+	public static final String[] NTP_NAMES ={"1.国家授时中心一","1.国家授时中心二","2.网络授时服务一","3.网络授时服务二","4.网络授时服务三","5.网络授时服务四"};
 	/***
 	 * 所有tnp服务的地址
 	 */
-	public static final String[] NTP_URLS ={"210.72.145.47",
+	public static final String[] NTP_URLS ={"210.72.145.39",
+			"210.72.145.47",
 			"1.cn.pool.ntp.org",
 			"2.cn.pool.ntp.org",
 			"3.cn.pool.ntp.org",
 			"0.cn.pool.ntp.org",
-			"cn.pool.ntp.org"};
+			};
 
 	public static  final String DEFAULT_TNP= NTP_URLS[0];
 
@@ -294,6 +300,8 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 
 		initNtpTime();
 
+		startService(this.getApplicationContext());
+
 	}
 
 	/**
@@ -342,19 +350,10 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 
 
 	private  void ntpError(){
-//	//	Toast.makeText(this.getApplicationContext(),"网络连接失败",Toast.LENGTH_LONG).show();
-//		mHandler.post(new Runnable() {
-//			@Override
-//			public void run() {
+
 				unCachedButton.setBackgroundResource(R.drawable.uncached_ntp_time);
 				showNtpErrorTooltip();
-				/*AlertDialog.Builder builder = new AlertDialog.Builder(VMainActivity.this);
-				builder.setMessage("网络连接失败");
-				builder.create().show();*/
-//			}
-//		});
-		//mSpUtil.setNtpService("");
-		//initTnp();
+
 	}
 	private void ntpSucc(){
 		mHandler.removeMessages(UPDATE_TIME);
@@ -584,8 +583,8 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 		@Override
 		public void run() {
 			refreshTime();
-			int delay = sp.getInt("timefrequent",1)*60*1000;
-			//int delay = 5000;
+			//int delay = sp.getInt("timefrequent",1)*60*1000;
+			int delay = 60000;
 			mHandler.postDelayed(this, delay);
 		}
 	};
@@ -607,6 +606,28 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 		mHandler.sendEmptyMessage(UPDATE_TIME);
 		refreshTime();
 
+
+	}
+
+	ServiceConnection connection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			L.d("service ....");
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+
+		}
+	} ;
+
+	private void startService(Context context){
+
+		//  context.startService(new Intent(TimerService.class.getName()).setPackage("com.winhands.settime"));
+		Intent intent = new Intent("aw.untas.com.timerappwidget.TimerService");
+
+		context.bindService(intent,connection,BIND_AUTO_CREATE);
+		//context.startService(intent);
 	}
 
 	private  void showNtpErrorTooltip(){
@@ -721,7 +742,7 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	@Override
 	public void onClick(View v) {
 		Intent mIntent;
-		L.d("onClick","click");
+		L.d("onClick", "click");
 		switch (v.getId()) {
 
 		case R.id.setting_timeservice:
@@ -849,6 +870,13 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 	}
 
 	private boolean setTime(long timezone) {
+		try {
+			PermissionUtils.requestPermission();
+		}catch (Exception ex){
+			L.d("获取权限错误");
+			ex.printStackTrace();
+		}
+
 		return SystemClock.setCurrentTimeMillis(timezone);
 	}
 

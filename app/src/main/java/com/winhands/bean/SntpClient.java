@@ -75,6 +75,8 @@ public class SntpClient
     public boolean requestTime(String host, int timeout) {
         DatagramSocket socket = null;
         try {
+            MyLog log = MyLog.getInstance();
+            log.init();
             socket = new DatagramSocket();
             socket.setSoTimeout(timeout);
             InetAddress address = InetAddress.getByName(host);
@@ -88,6 +90,7 @@ public class SntpClient
 
             // get current time and write it to the request packet
             long requestTime = System.currentTimeMillis();
+
             long requestTicks = SystemClock.elapsedRealtime();
             writeTimeStamp(buffer, TRANSMIT_TIME_OFFSET, requestTime);
 
@@ -114,10 +117,8 @@ public class SntpClient
             //             = (transit + skew - transit + skew)/2
             //             = (2 * skew)/2 = skew
             long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2;
-
-//            MyLog.getInstance().d("requestTime="+requestTime+",originateTime="+originateTime
-//                    +",receiveTime="+receiveTime+",transmitTime ="+transmitTime+",responseTime="+responseTime+"\r\n");
-//            // if (false) Log.d(TAG, "round trip: " + roundTripTime + " ms");
+            log.appendMill(responseTime);
+            log.append(",");
 //            // if (false) Log.d(TAG, "clock offset: " + clockOffset + " ms");
 
             // save our results - use the times on this side of the network latency
@@ -125,8 +126,14 @@ public class SntpClient
             mNtpTime = responseTime + clockOffset;
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
+
+            log.append("-"+roundTripTime);
+            log.append(",");
+            log.append(roundTripTime/2);
+
+            log.flush();
+
         } catch (Exception e) {
-            if (false) Log.d(TAG, "request time failed: " + e);
             return false;
         } finally {
             if (socket != null) {
@@ -190,6 +197,10 @@ public class SntpClient
     private long readTimeStamp(byte[] buffer, int offset) {
         long seconds = read32(buffer, offset);
         long fraction = read32(buffer, offset + 4);
+
+        MyLog log = MyLog.getInstance();
+        log.append(seconds,fraction);
+        log.append(",");
         return ((seconds - OFFSET_1900_TO_1970) * 1000) + ((fraction * 1000L) / 0x100000000L);
     }
 

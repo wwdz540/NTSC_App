@@ -96,12 +96,14 @@ public class BaseApplication extends Application{
 	}
 	@Override
 	public void onCreate() {
+		Log.i(TAG,"BaseApplication被创建");
 		super.onCreate();
-		Log.i("","BaseApplication被创建");
+
 		mInstance = this;
 		mCityDB = openCityDB();// 这个必须最先复制完,所以我放在单线程中处理,待优化
 		
 		initData(null);
+		Log.i(TAG, "创建结束");
 	}
 	public static synchronized BaseApplication getInstance() {
 		return mInstance;

@@ -37,6 +37,7 @@ import java.net.URL;
 public class StartActivity extends Activity {
     private static final String UPDATE_URL="http://120.24.64.153:8080/facade/app2_files/upgrade.json";
 
+   // protected String versionName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,10 @@ public class StartActivity extends Activity {
     private void checkVersion(){
         try {
             final PackageInfo packageInfo =getPackageManager().getPackageInfo(getPackageName(), 0);
+         //   versionName = packageInfo.versionName;
 
-            L.d("packageInfo=" + packageInfo.versionCode);
-            L.d("packageInfo=" + packageInfo.versionName);
+            L.d("checkVersion packageInfo=" + packageInfo.versionCode);
+            L.d("checkVersion packageInfo=" + packageInfo.versionName);
 
             RequestQueue mRquestQueue = Volley.newRequestQueue(this);
             Response.Listener<JSONObject> mResponseListener = new Response.Listener<JSONObject>() {
@@ -72,6 +74,8 @@ public class StartActivity extends Activity {
                     if(curVersionCode > packageInfo.versionCode){
 
                     }*/
+
+                    L.d("checkVersion curVersionName=" + curVersionName);
 
                     if(!curVersionName.equals(packageInfo.versionName)){
                         AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this);
@@ -185,6 +189,12 @@ public class StartActivity extends Activity {
             StartActivity.this.startActivity(intent);
         }
     }
+
+/*
+    protected void setVersionName(){
+
+    }
+*/
 
 
 

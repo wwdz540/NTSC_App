@@ -243,7 +243,7 @@ public class WheatherActivity extends FragmentActivity implements
 			((SecondWeatherFragment) mWeatherPagerAdapter.getItem(1))
 					.updateWeather(allWeather);
 		}
-		if (allWeather != null) {
+		if (allWeather != null && allWeather.getCity() != null) {
 			cityTv.setText(allWeather.getCity());
 			if (!TextUtils.isEmpty(allWeather.getFeelTemp())) {
 				temperatureTv.setText(allWeather.getFeelTemp());

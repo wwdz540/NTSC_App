@@ -70,9 +70,7 @@ public class TimerService extends Service {
         if(!trustedTime.hasCache()){
             trustedTime.setServer(currentNTP);
             trustedTime.setTimeout(5000);
-
         }
-
 
         initThread();
 
@@ -80,7 +78,6 @@ public class TimerService extends Service {
         handlerThread.start();
         handler = new TimerHandler(handlerThread.getLooper());
         handler.sendEmptyMessageDelayed(1,500);
-
 
         regesiterReceive();
         super.onCreate();
@@ -153,7 +150,7 @@ public class TimerService extends Service {
             now.setTime(trustedTime.currentTimeMillis());
             appWidgetProvider.setTime(mContext, now);
             mBinder.setTime(trustedTime.currentTimeMillis());
-            SystemClock.sleep(UPDATE_TIME);
+          //  SystemClock.sleep(UPDATE_TIME);
         }else {
             now.setTime(System.currentTimeMillis());
             appWidgetProvider.setTime(mContext,now);

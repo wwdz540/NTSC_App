@@ -2,6 +2,7 @@ package com.winhands.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 
 public class NetUtil {
@@ -13,19 +14,28 @@ public class NetUtil {
 		ConnectivityManager connManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+
+		NetworkInfo networkInfo;
 		// Wifi
-		State state = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-				.getState();
-		if (state == State.CONNECTED || state == State.CONNECTING) {
-			return NETWORN_WIFI;
+		networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		if(networkInfo!=null){
+			State state = networkInfo.getState();
+			if (state == State.CONNECTED || state == State.CONNECTING) {
+				return NETWORN_WIFI;
+			}
 		}
 
-		// 3G
-		state = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
-				.getState();
-		if (state == State.CONNECTED || state == State.CONNECTING) {
-			return NETWORN_MOBILE;
+
+			// 3G
+		networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if(networkInfo!=null) {
+			State state = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+					.getState();
+			if (state == State.CONNECTED || state == State.CONNECTING) {
+				return NETWORN_MOBILE;
+			}
 		}
+
 		return NETWORN_NONE;
 	}
 }

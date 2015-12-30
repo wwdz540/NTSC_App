@@ -264,21 +264,27 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 						s = s + allWeather.getFeelTemp() + "  ";
 						mSpUtil.setSimpleTemp(allWeather.getFeelTemp()
 								.replace("~", "/").replace("℃", "°"));// 保存一下温度信息，用户小插件
-					} else {
+					} else if(!TextUtils.isEmpty(allWeather.getTemp0())) {
 						s = s + allWeather.getTemp0() + "  ";
 						mSpUtil.setSimpleTemp(allWeather.getTemp0()
 								.replace("~", "/").replace("℃", "°"));
 					}
 
+
 					String climate = allWeather.getWeather0();
-					s = s + climate + "  ";
-					mSpUtil.setSimpleClimate(climate);// 保存一下天气信息，用户小插件
+					if(!TextUtils.isEmpty(climate)) {
+						s = s + climate + "  ";
+						mSpUtil.setSimpleClimate(climate);// 保存一下天气信息，用户小插件
+					}
+
 
 					String time = allWeather.getIntime();
 					mSpUtil.setTimeSamp(TimeUtil.getLongTime(time));// 保存一下更新的时间戳，记录更新时间
-					s = s + allWeather.getCity()+" >";
-					cityName.setText(s);
-					cityName.setTextSize(17);
+					if(!TextUtils.isEmpty(allWeather.getCity())) {
+						s = s + allWeather.getCity() + " >";
+						cityName.setText(s);
+						cityName.setTextSize(17);
+					}
 				}
 /*
 				if(msg.what==21){

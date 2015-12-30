@@ -14,7 +14,7 @@ import android.os.SystemClock;
 import android.content.SharedPreferences;
 
 import com.winhands.activity.BaseApplication;
-import com.winhands.activity.VMainActivity;
+import com.winhands.activity.MainActivity;
 import com.winhands.bean.SntpClient;
 import com.winhands.util.L;
 import com.winhands.util.SharePreferenceUtil;
@@ -91,8 +91,8 @@ public class TsaService extends Service {
 
         } else {
             L.d("获取时间失败"+client.getNtpTime());
-             tnpUrl= VMainActivity.NTP_URLS[sntp_idx];
-            sntp_idx = (sntp_idx+1) % VMainActivity.NTP_URLS.length;
+             tnpUrl= MainActivity.NTP_URLS[sntp_idx];
+            sntp_idx = (sntp_idx+1) % MainActivity.NTP_URLS.length;
             mSntpHandler.sendEmptyMessageDelayed(1,10000);
             return false;
         }

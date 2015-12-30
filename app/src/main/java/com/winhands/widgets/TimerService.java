@@ -19,7 +19,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.winhands.activity.BaseApplication;
-import com.winhands.activity.VMainActivity;
+import com.winhands.activity.MainActivity;
 import com.winhands.settime.R;
 import com.winhands.util.NtpTrustedTime;
 import com.winhands.util.SharePreferenceUtil;
@@ -47,7 +47,7 @@ public class TimerService extends Service {
     private Context mContext;
     private TimerAppWidgetProvider appWidgetProvider = TimerAppWidgetProvider.getInstance();
 
-    private String currentNTP= VMainActivity.DEFAULT_TNP;
+    private String currentNTP= MainActivity.DEFAULT_TNP;
     NtpTrustedTime trustedTime ;
 
     HandlerThread handlerThread;
@@ -154,7 +154,7 @@ public class TimerService extends Service {
         }else {
             now.setTime(System.currentTimeMillis());
             appWidgetProvider.setTime(mContext,now);
-            SystemClock.sleep(100l);
+         //   SystemClock.sleep(100l);
         }
     }
 

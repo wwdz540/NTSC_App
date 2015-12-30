@@ -3,20 +3,16 @@ package com.winhands.widgets;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.winhands.activity.VMainActivity;
+import com.winhands.activity.MainActivity;
 import com.winhands.settime.R;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by cheshire_cat on 15/7/17.
@@ -61,7 +57,7 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         Log.d(LOGTAG, "onReceive=" + intent.getAction());
         if(intent.getAction().equals(CLICK_ACTION)){
-            Intent activityAction = new Intent(context.getApplicationContext(),VMainActivity.class);
+            Intent activityAction = new Intent(context.getApplicationContext(),MainActivity.class);
             activityAction.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(activityAction);
             return;

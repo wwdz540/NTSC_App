@@ -59,7 +59,6 @@ import com.winhands.util.SharePreferenceUtil;
 import com.winhands.util.SharePreferenceUtils;
 import com.winhands.util.T;
 import com.winhands.util.TimeUtil;
-import com.winhands.widgets.TimerService;
 
 import org.json.JSONObject;
 
@@ -71,7 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class VMainActivity extends StartActivity implements OnTouchListener,
+public class OldMainActivity extends StartActivity implements OnTouchListener,
 		OnClickListener, onCityNameChanged, onButtonChanged, onServiceCreate,
 		onSelected {
 
@@ -756,17 +755,17 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 				initTnp();
 				break;
 		case R.id.citysetting:
-			mIntent = new Intent(VMainActivity.this, SelectCtiyActivity.class);
+			mIntent = new Intent(OldMainActivity.this, SelectCtiyActivity.class);
 			startActivity(mIntent);
 			break;
 		case R.id.cityName:
-			mIntent = new Intent(VMainActivity.this, WheatherActivity.class);
+			mIntent = new Intent(OldMainActivity.this, WheatherActivity.class);
 			startActivity(mIntent);
 			break;
 		case R.id.timesetting:
 			if (!timeoutFlag) {
 				if (!setTime(ntpTrustedTime.currentTimeMillis())) {
-					Toast.makeText(VMainActivity.this, "应用未获得ROOT权限",
+					Toast.makeText(OldMainActivity.this, "应用未获得ROOT权限",
 							Toast.LENGTH_SHORT).show();
 					// Intent intent = new Intent("/");
 					// ComponentName cm = new ComponentName(
@@ -784,19 +783,19 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 				//mTimerTaskNet.cancel();
 				//initThread();
 			} else {
-				Toast.makeText(VMainActivity.this, "网络连接失败,无法对时",
+				Toast.makeText(OldMainActivity.this, "网络连接失败,无法对时",
 						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.setTimeZone:
-			dlg = new AlertDialog.Builder(VMainActivity.this).create();
+			dlg = new AlertDialog.Builder(OldMainActivity.this).create();
 			dlg.show();
-			View view = LayoutInflater.from(VMainActivity.this).inflate(
+			View view = LayoutInflater.from(OldMainActivity.this).inflate(
 					R.layout.dialog, null);
 			dlg.getWindow().setContentView(view);
 
 			ListView lv = (ListView) view.findViewById(R.id.lv);
-			lv.setAdapter(new TimeZoneAdapter(VMainActivity.this, timeZoneList));
+			lv.setAdapter(new TimeZoneAdapter(OldMainActivity.this, timeZoneList));
 			break;
 		case R.id.lv_sync:
 			if (exitValue != 0) {
@@ -805,11 +804,11 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 			} else {
 				if (BaseApplication.isOpen) {
 					lv_sync.setImageResource(R.drawable.sync_close);
-					mIntent = new Intent(VMainActivity.this, SyncService.class);
+					mIntent = new Intent(OldMainActivity.this, SyncService.class);
 					stopService(mIntent);
 				} else {
 					lv_sync.setImageResource(R.drawable.sync_open);
-					mIntent = new Intent(VMainActivity.this, SyncService.class);
+					mIntent = new Intent(OldMainActivity.this, SyncService.class);
 					startService(mIntent);
 
 				}
@@ -817,48 +816,48 @@ public class VMainActivity extends StartActivity implements OnTouchListener,
 			}
 			break;
 		case R.id.settime_frequent:
-			dlg = new AlertDialog.Builder(VMainActivity.this).create();
+			dlg = new AlertDialog.Builder(OldMainActivity.this).create();
 			dlg.show();
-			View viewfrequent = LayoutInflater.from(VMainActivity.this).inflate(
+			View viewfrequent = LayoutInflater.from(OldMainActivity.this).inflate(
 					R.layout.frequent, null);
 			dlg.getWindow().setContentView(viewfrequent);
 
 			ListView lvfrequent = (ListView) viewfrequent.findViewById(R.id.lv);
-			lvfrequent.setAdapter(new TimeFrequentAdapter(VMainActivity.this,
+			lvfrequent.setAdapter(new TimeFrequentAdapter(OldMainActivity.this,
 					timeFrequentList));
 			break;
 		case R.id.background:
-			dlg = new AlertDialog.Builder(VMainActivity.this).create();
+			dlg = new AlertDialog.Builder(OldMainActivity.this).create();
 			dlg.show();
-			View viewBackground = LayoutInflater.from(VMainActivity.this)
+			View viewBackground = LayoutInflater.from(OldMainActivity.this)
 					.inflate(R.layout.background, null);
 			dlg.getWindow().setContentView(viewBackground);
 			ListView lvBackground = (ListView) viewBackground
 					.findViewById(R.id.lv);
-			lvBackground.setAdapter(new BackgroundAdapter(VMainActivity.this,
+			lvBackground.setAdapter(new BackgroundAdapter(OldMainActivity.this,
 					backgroundList));
 			break;
 		case R.id.setting:
 			scrollToMenu();
 			break;
 		case R.id.notice:
-			dlg = new AlertDialog.Builder(VMainActivity.this).create();
+			dlg = new AlertDialog.Builder(OldMainActivity.this).create();
 			dlg.show();
-			View viewNotice = LayoutInflater.from(VMainActivity.this).inflate(
+			View viewNotice = LayoutInflater.from(OldMainActivity.this).inflate(
 					R.layout.notice, null);
 			dlg.getWindow().setContentView(viewNotice);
 			break;
 		case R.id.serverSetting:
-			dlg = new AlertDialog.Builder(VMainActivity.this).create();
+			dlg = new AlertDialog.Builder(OldMainActivity.this).create();
 			dlg.show();
 			dlg.getWindow().clearFlags(
 					WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-			View viewServerSetting = LayoutInflater.from(VMainActivity.this)
+			View viewServerSetting = LayoutInflater.from(OldMainActivity.this)
 					.inflate(R.layout.serversetting, null);
 			dlg.getWindow().setContentView(viewServerSetting);
 			break;
 		case R.id.news:
-			mIntent = new Intent(VMainActivity.this, NewsListActivity.class);
+			mIntent = new Intent(OldMainActivity.this, NewsListActivity.class);
 			startActivity(mIntent);
 			break;
 		case R.id.openweb:

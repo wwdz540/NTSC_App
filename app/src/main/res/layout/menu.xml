@@ -2,11 +2,12 @@
 <LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:id="@+id/menu"
-android:layout_width="270dp"
+android:layout_width="match_parent"
 android:layout_height="fill_parent"
 android:layout_gravity="left"
 android:background="#FFFFFF"
-android:orientation="vertical" >
+android:orientation="vertical"
+android:focusable="true">
 
 <TextView
     android:layout_width="wrap_content"

@@ -12,6 +12,8 @@ import android.widget.RemoteViews;
 import com.winhands.activity.MainActivity;
 import com.winhands.settime.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -97,11 +99,11 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
        //  PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intentClick,0);
          remoteViews.setOnClickPendingIntent(R.id.nts_logo,pendingIntent);
      }
-
+        DateFormat dateDf = new SimpleDateFormat("yyyy.MM.dd");
 
       void updateAllAppWidgets(Context context, AppWidgetManager manager, int[] ids,Date date) {
 
-        RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.timer_widget_2);
+        RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.timer_widget_1);
         initClickAction(context,remoteView);
 
         int d;
@@ -128,6 +130,7 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
             d=date.getSeconds();
             remoteView.setTextViewText(R.id.tv_sec,d/10+""+d%10);
 
+            remoteView.setTextViewText(R.id.wg_date,dateDf.format(date));
             manager.updateAppWidget(appId,remoteView);
         }
     }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -20,13 +21,17 @@ import android.util.Log;
 
 import com.winhands.activity.BaseApplication;
 import com.winhands.activity.MainActivity;
+import com.winhands.activity.WidgetConfigActivity;
 import com.winhands.settime.R;
+import com.winhands.util.L;
 import com.winhands.util.NtpTrustedTime;
 import com.winhands.util.SharePreferenceUtil;
 import com.winhands.util.SharePreferenceUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -45,26 +50,29 @@ public class TimerService extends Service {
 
 
     private Context mContext;
-    private TimerAppWidgetProvider appWidgetProvider = TimerAppWidgetProvider.getInstance();
+    private TimerAppWidgetProvider appWidgetProvider;
 
     private String currentNTP= MainActivity.DEFAULT_TNP;
     NtpTrustedTime trustedTime ;
 
     HandlerThread handlerThread;
     TimerHandler handler;
+
+    Map<Integer,Integer> layoutMap ;
     @Override
     public void onCreate() {
+        mContext = this.getApplicationContext();
+        appWidgetProvider = TimerAppWidgetProvider.getInstance();
+        layoutMap = WidgetConfigActivity.getLayoutMap(mContext);
 
-        Log.d(TAG," service create");
+        appWidgetProvider.setLayoutMap(layoutMap);
+
         sp = new SharePreferenceUtils(this).getSP();
         mSpUtil = BaseApplication.getInstance().getSharePreferenceUtil();
-        mContext = this.getApplicationContext();
-      //  netDAteCal=Calendar.getInstance();
 
         if(!("".equals(mSpUtil.getNtpService()))){
             currentNTP = mSpUtil.getNtpService();
         }
-
 
         trustedTime = NtpTrustedTime.getInstance(this);
         if(!trustedTime.hasCache()){
@@ -143,18 +151,16 @@ public class TimerService extends Service {
 
 
 
-    Date now = new Date();
+    Calendar now = Calendar.getInstance();
     public void updateTime(){
-       // Log.d(TAG,"update time");
         if(trustedTime.hasCache()) {
-            now.setTime(trustedTime.currentTimeMillis());
+            now.setTimeInMillis(trustedTime.currentTimeMillis());
             appWidgetProvider.setTime(mContext, now);
             mBinder.setTime(trustedTime.currentTimeMillis());
-          //  SystemClock.sleep(UPDATE_TIME);
+
         }else {
-            now.setTime(System.currentTimeMillis());
+            now.setTimeInMillis(System.currentTimeMillis());
             appWidgetProvider.setTime(mContext,now);
-         //   SystemClock.sleep(100l);
         }
     }
 
@@ -232,7 +238,14 @@ public class TimerService extends Service {
         // example：有时候会用到系统对话框，权限可能很高，会覆盖在锁屏界面或者“关机”对话框之上，
         // 所以监听这个广播，当收到时就隐藏自己的对话，如点击pad右下角部分弹出的对话框
         filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        registerReceiver(broadcastReceiver,filter);
+        registerReceiver(broadcastReceiver, filter);
+
+
+        final IntentFilter widgetAddFilter = new IntentFilter();
+        widgetAddFilter.addAction(WidgetConfigActivity.WIDGET_ADD_ACTION);
+        registerReceiver(widgetAddReceive,widgetAddFilter);
+
+
     }
 
     final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -247,6 +260,18 @@ public class TimerService extends Service {
              // handlerThread.notify();
               handler.sendEmptyMessage(1);
           }
+        }
+    };
+
+    final BroadcastReceiver widgetAddReceive = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            int id = bundle.getInt("id");
+            int layout = bundle.getInt("layout");
+            L.d("wang id"+id);
+            L.d("wang id"+layout);
+            layoutMap.put(id,layout);
         }
     };
 

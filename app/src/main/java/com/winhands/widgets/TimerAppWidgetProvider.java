@@ -11,19 +11,30 @@ import android.widget.RemoteViews;
 
 import com.winhands.activity.MainActivity;
 import com.winhands.settime.R;
+import com.winhands.util.L;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
- * Created by cheshire_cat on 15/7/17.
+ *
  */
 public class TimerAppWidgetProvider  extends AppWidgetProvider {
-    private static  final  String LOGTAG="TSA";
+    private static  final String LOGTAG="TSA";
     private static  final String CLICK_ACTION = "com.untsa.TIMER_APP_WEIDGET_CLICK";
 
+    private static final String[] WEEKS_STRS = new String[]{"","星期天","星期一","星期二","星期三","星期四","星期五","星期六"};
+
     private static TimerAppWidgetProvider instance;
+
+    private Map<Integer,Integer> layoutMap;
+
+    public void setLayoutMap(Map<Integer, Integer> layoutMap) {
+        this.layoutMap = layoutMap;
+    }
 
     public static  TimerAppWidgetProvider getInstance(){
        if(instance==null){
@@ -31,6 +42,8 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
        }
         return  instance;
     }
+
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -68,8 +81,6 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
             Intent serviceIntent = new Intent(context.getApplicationContext(),TimerService.class);
             context.startService(serviceIntent);
         }
-
-
         super.onReceive(context, intent);
     }
 
@@ -85,52 +96,59 @@ public class TimerAppWidgetProvider  extends AppWidgetProvider {
     }
 
 
-    public void setTime(Context context,Date date){
+    public void setTime(Context context,Calendar cal){
          AppWidgetManager  am= AppWidgetManager.getInstance(context);
          int[] widgetIds =  am.getAppWidgetIds(new ComponentName(context,this.getClass()));
          if(widgetIds.length!=0)
-         updateAllAppWidgets(context,am,widgetIds,date);
+         updateAllAppWidgets(context,am,widgetIds,cal);
 
      }
 
      void initClickAction(Context context,RemoteViews remoteViews){
          Intent intentClick = new Intent(CLICK_ACTION);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intentClick, 0);
-       //  PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intentClick,0);
+         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intentClick, 0);
          remoteViews.setOnClickPendingIntent(R.id.nts_logo,pendingIntent);
      }
         DateFormat dateDf = new SimpleDateFormat("yyyy.MM.dd");
 
-      void updateAllAppWidgets(Context context, AppWidgetManager manager, int[] ids,Date date) {
+      void updateAllAppWidgets(Context context, AppWidgetManager manager, int[] ids,Calendar cal) {
+        Date date = cal.getTime();
 
-        RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.timer_widget_1);
-        initClickAction(context,remoteView);
+       // RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.timer_widget_1);
+          RemoteViews[] remoteViewses = new RemoteViews[]{
+                  new RemoteViews(context.getPackageName(), R.layout.timer_widget_1),
+                  new RemoteViews(context.getPackageName(), R.layout.timer_widget_2)
+          };
+
+        for(RemoteViews remoteView:remoteViewses) {
+            initClickAction(context, remoteView);
+        }
 
         int d;
+         RemoteViews remoteView = remoteViewses[0];
+          L.d("map ="+layoutMap);
         for(Integer tmpAppId:ids){
             int appId=tmpAppId.intValue();
+            Integer layout = 0;
 
-            // remoteView.setTextViewText(R.id.appwidget_text,DF.format(date));
-//            int h=date.getHours();
-//            remoteView.setImageViewResource(R.id.nb_h0,Utils.NUMBERS[h%10]);
-//            remoteView.setImageViewResource(R.id.nb_h1,Utils.NUMBERS[h/10]);
-//
-//            int m=date.getMinutes();
-//            remoteView.setImageViewResource(R.id.nb_m0,Utils.NUMBERS[m%10]);
-//            remoteView.setImageViewResource(R.id.nb_m1,Utils.NUMBERS[m/10]);
-//
-//            int s = date.getSeconds();
-//            remoteView.setImageViewResource(R.id.nb_s0,Utils.NUMBERS[s%10]);
-//            remoteView.setImageViewResource(R.id.nb_s1,Utils.NUMBERS[s/10]);
+            if(layoutMap.containsKey(appId))
+                layout = layoutMap.get(appId);
+
+
+            if(layout<2)
+                remoteView = remoteViewses[layout];
 
             d=date.getHours();
             remoteView.setTextViewText(R.id.tv_hour,d/10+""+d%10);
             d=date.getMinutes();
             remoteView.setTextViewText(R.id.tv_min,d/10+""+d%10);
-            d=date.getSeconds();
-            remoteView.setTextViewText(R.id.tv_sec,d/10+""+d%10);
 
+            d=cal.get(Calendar.SECOND);
+            remoteView.setTextViewText(R.id.tv_sec,d/10+""+d%10);
             remoteView.setTextViewText(R.id.wg_date,dateDf.format(date));
+
+            remoteView.setTextViewText(R.id.tv_week, WEEKS_STRS[cal.get(Calendar.DAY_OF_WEEK)]);
+
             manager.updateAppWidget(appId,remoteView);
         }
     }

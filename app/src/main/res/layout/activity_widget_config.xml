@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/select_layout"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff0f0f0"
+    tools:ignore="ContentDescription,UselessParent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radius"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+
+        <RadioButton
+            android:id="@+id/have_back"
+            android:checked="true"
+            android:background="@drawable/select_item"
+            android:button="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textColor="#767676"
+            android:textSize="18dp"
+            android:text="有背景样式"/>
+
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000000" />
+
+        <RadioButton
+            android:id="@+id/no_back"
+            android:background="@drawable/select_item"
+            android:button="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textColor="#767676"
+            android:textSize="18dp"
+            android:text="无背景样式"/>
+
+    </RadioGroup>
+
+
+
+
+
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.5dp"-->
+        <!--android:background="#000000" />-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/serverSetting"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:visibility="gone"-->
+        <!--android:orientation="vertical" >-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="设置服务器"-->
+            <!--android:textColor="#767676"-->
+            <!--android:textSize="18dp" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="设置获取NTP服务器地址"-->
+            <!--android:textColor="#A3A3A3"-->
+            <!--android:textSize="16dp" />-->
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.5dp"-->
+        <!--android:background="#000000" />-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/notice"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:orientation="vertical" >-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="软件说明"-->
+            <!--android:textColor="#767676"-->
+            <!--android:textSize="18dp" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="软件及操作说明"-->
+            <!--android:textColor="#A3A3A3"-->
+            <!--android:textSize="16dp" />-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="添加小插件到桌面"
+            android:id="@+id/button"
+            android:textColor="#333333"
+            style="?android:textAppearanceSmall"
+            />
+    </LinearLayout>
+</LinearLayout>

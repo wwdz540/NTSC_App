@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="130dp"
-
-    android:layout_centerHorizontal="true"
-    android:background="@drawable/time_appwidget_bg"
+    android:layout_width="match_parent"
+    android:layout_height="120dip"
     android:orientation="horizontal"
     android:gravity="center_vertical|center_horizontal"
-    android:paddingRight="35dp"
-    android:paddingLeft="30dp"
-
-    android:paddingTop="10dip"
-    android:paddingBottom="10dip"
-    android:weightSum="1">
+>
 
     <LinearLayout
-        android:layout_width="100dip"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingTop="12dip"
-        android:paddingLeft="10dip"
+
+        android:paddingLeft="18dip"
+        android:paddingRight="8dip"
+        android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical">
         <ImageView
-            android:src="@drawable/nts_logo"
+            android:src="@drawable/nts_logo1"
             android:id="@+id/nts_logo"
-
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="38dp"
             android:paddingRight="10dp"/>
+
         <TextView
-            android:paddingTop="8dip"
-            android:textSize="12sp"
+            android:layout_marginTop="1dip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"
             android:text="国家授时中心"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="1dip"
         android:layout_height="60dip"
-        android:background="#678ab2"></LinearLayout>
+        android:background="#55ffffff"></LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginLeft="15dp"
-        >
+        android:layout_height="match_parent"
+        android:paddingLeft="8dip"
+        android:paddingRight="22dip"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <!---  -->
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
-            android:gravity="center_vertical">
+            android:paddingRight="13dip"
+            android:gravity="center_vertical|right">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -63,12 +62,12 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <ImageView
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="4dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
                 android:src="@drawable/timerdot"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp" />
+                android:layout_height="20dp"
+                />
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -82,9 +81,8 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <ImageView
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="4dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
                 android:src="@drawable/timerdot"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp" />
@@ -103,13 +101,28 @@
             </LinearLayout>
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/wg_date"
-            android:text=""
-            android:textSize="20sp"
-            android:gravity="right"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="right">
+            <TextView
+                android:text="星期*"
+                android:id="@+id/tv_week"
+                android:paddingRight="14dip"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/wg_date"
+                android:text="0000.00.00"
+                android:textSize="14sp"
+                android:gravity="right"
+                android:paddingRight="14dip"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
+        <!--  -->
+    </LinearLayout>
 </LinearLayout>

@@ -184,7 +184,15 @@ public class MainActivity extends StartActivity implements
     /***
      * 所有tnp服务的地址
      */
-    public static final String[] NTP_URLS ={"210.72.145.39",
+//    public static final String[] NTP_URLS ={"210.72.145.39",
+//            "210.72.145.47",
+//            "1.cn.pool.ntp.org",
+//            "2.cn.pool.ntp.org",
+//            "3.cn.pool.ntp.org",
+//            "0.cn.pool.ntp.org",
+//    };
+//
+ public static final String[] NTP_URLS ={"159.226.154.8",
             "210.72.145.47",
             "1.cn.pool.ntp.org",
             "2.cn.pool.ntp.org",
@@ -717,7 +725,6 @@ public class MainActivity extends StartActivity implements
         switch (weekday) {
             case 1:
                 return "周一";
-
             case 2:
                 return "周二";
             case 3:

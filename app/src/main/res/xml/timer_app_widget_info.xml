@@ -3,6 +3,7 @@
 android:minWidth="294dip"
 android:minHeight="102dip"
 android:updatePeriodMillis="0"
+android:configure="com.winhands.activity.WidgetConfigActivity"
 android:initialLayout="@layout/timer_widget_1">
 
 </appwidget-provider>

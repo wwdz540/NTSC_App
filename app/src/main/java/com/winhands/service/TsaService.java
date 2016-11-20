@@ -20,6 +20,7 @@ import com.winhands.util.L;
 import com.winhands.util.SharePreferenceUtil;
 import com.winhands.widgets.TimerAppWidgetProvider;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -129,14 +130,15 @@ public class TsaService extends Service {
         Handler mHandler;
         Context mContext;
          TimerAppWidgetProvider appWidgetProvider = TimerAppWidgetProvider.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         @Override
         public void run() {
-
                 time +=1000;
                 L.d("运行时间" + time);
             mHandler.postDelayed(this, 1000);
-            appWidgetProvider.setTime(mContext,new Date(time));
+            cal.setTimeInMillis(time);
+         //   appWidgetProvider.setTime(mContext,cal);
 
         }
     }
